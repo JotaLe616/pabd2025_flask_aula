@@ -1,0 +1,24 @@
+<head>
+    <title>3INF1M</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<body>
+    <div class="App">
+        <header class="bg-primary text-dark p-4">
+            <h1>My Flask App</h1>
+        </header>
+        <div>
+            <p><strong>CPF:</strong> {{ funcionario.cpf }}</p>
+            <p><strong>Primeiro Nome:</strong> {{ funcionario.pnome }}</p>
+            <p><strong>Último Nome:</strong> {{ funcionario.unome }}</p>
+            <p><strong>Salário:</strong> {{ funcionario.salario }}</p>
+        </div>
+        <h2>Informações do Funcionário</h2>
+    </div>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</html>
