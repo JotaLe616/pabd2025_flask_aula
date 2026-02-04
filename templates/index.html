@@ -26,17 +26,17 @@
                 <tbody class="text-center">
                     {% for f in funcionarios %}
                     <tr>
-                        <td>{{ f.cpf }}</td>
+                        <td>{{ f.cpf|format_cpf }}</td>
                         <td>{{ f.pnome }}</td>
                         <td>{{ f.unome }}</td>
-                        <td>
-                            <a href="{{ url_for('details', pk='cpf', id=f.cpf) }}" class="btn btn-sm btn-success" title="Visualizar">
+                        <td><a href="{{ url_for('read', pk='cpf', id=f.cpf) }}" class="btn btn-sm btn-success"
+                                title="Ver detalhes">
                                 <i class="fas fa-eye"></i>
                             </a>
-                            <a href="{{ url_for('details', pk='cpf', id=f.cpf) }}" class="btn btn-sm btn-warning" title="Editar">
+                            <a href="{{ url_for('update', pk=f.cpf) }}" class="btn btn-sm btn-warning" title="Editar">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <a href="{{ url_for('details', pk='cpf', id=f.cpf) }}" class="btn btn-sm btn-danger" title="Excluir">
+                            <a href="{{ url_for('delete', pk=f.cpf) }}" class="btn btn-sm btn-danger" title="Apagar">
                                 <i class="fas fa-trash"></i>
                             </a>
                         </td>
