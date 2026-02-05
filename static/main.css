@@ -43,3 +43,19 @@ code {
 .small {
     font-size: 0.75rem;
 }
+#cabecalho {
+    background-color: yellow;
+    color: red;
+    padding: 40px;
+}
+#body-index {
+    background-color: white;
+}
+#botao-adicionar {
+    color: white;
+    text-decoration: none;
+}
+#table-color {
+    color: red;
+    background-color: red;
+}

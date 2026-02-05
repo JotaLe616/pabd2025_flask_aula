@@ -29,7 +29,26 @@ class BaseDAO(ABC, Generic[T]):
     pass
 
   ### Create
-  # response = self._client.table(self._table_name).insert( ??? ).execute()
+  def create(self, model: T) -> Optional[T]:
+        """
+        Cria um novo registro no banco de dados.
+
+        Args:
+            model (T): Instância do modelo a ser criado.
+
+        Returns:
+            Optional[T]: Instância criada com ID gerado ou None em caso de erro.
+        """
+        try:
+            data = self.to_dict(model)
+            response = self._client.table(self._table_name).insert(data).execute()
+
+            if response.data and len(response.data) > 0:
+                return self.to_model(response.data[0])
+            return None
+        except Exception as e:
+            print(f"Erro ao criar registro: {e}")
+            return None
 
   ### Read
   def read(self, pk: str, value: T) -> Optional[T]:

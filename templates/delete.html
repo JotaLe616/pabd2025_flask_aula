@@ -69,14 +69,7 @@
 
                 <!-- Formulário de confirmação -->
                 <form method="POST" action="{{ url_for('delete', pk=funcionario.cpf) }}" class="formulario">
-                    <!-- Checkbox de confirmação -->
-                    <div class="confirmacao">
-                        <input type="checkbox" id="confirmCheckbox" required class="checkbox">
-                        <label for="confirmCheckbox" class="checkbox-label">
-                            Eu entendo que esta ação é irreversível.
-                        </label>
-                    </div>
-                    
+
                     <!-- Botões de ação -->
                     <div class="botoes">
                         <a href="{{ url_for('index') }}" class="botao botao-cancelar">

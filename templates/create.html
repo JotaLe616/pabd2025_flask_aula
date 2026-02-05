@@ -17,7 +17,7 @@
         </h1>
         
         <!-- FORMULÁRIO DE CADASTRO -->
-        <form method="POST" class="formulario">
+        <form method="POST" action="{{ url_for('create') }}" class="formulario">
             
             <!-- CAMPO: CPF -->
             <div class="grupo-campo">
@@ -93,6 +93,7 @@
             
             <!-- GRUPO DE BOTÕES -->
             <div class="grupo-botoes">
+                
                 <!-- BOTÃO: CADASTRAR -->
                 <button type="submit" class="botao botao-primario">
                     <i class="fas fa-check"></i> Cadastrar

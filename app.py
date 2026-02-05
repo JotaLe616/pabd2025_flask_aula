@@ -14,7 +14,7 @@ client = SupabaseConnection().client
 #Caminho do index
 @app.route("/")
 def index():
-    return render_template("index.html", title="UMA EMPRESA", app_name="EMPRESA 3INF1M", funcionarios=funcionario_dao.read_all())
+    return render_template("index.html", title="LOS POLLOS HERMANOS", app_name="LOS FUNCIONÁRIOS", funcionarios=funcionario_dao.read_all())
 
 # Criando DAO para acessar a tabela funcionario
 funcionario_dao = FuncionarioDAO(client)
@@ -35,7 +35,73 @@ def read(pk, id):
 # Rota para CRIAR novo funcionário
 @app.route('/funcionario/novo', methods=['GET', 'POST'])
 def create():
-    return render_template('create.html')
+    if request.method == 'POST':
+        try:
+            # 1. Pegar dados do formulário
+            dados = request.form
+            
+            # 2. Converter tipos conforme necessário
+            from datetime import datetime as dt
+            
+            # Para definir a data de nascimento
+            data_nasc = None
+            if dados.get('data_nasc'):
+                try:
+                    data_nasc = dt.strptime(dados['data_nasc'], '%Y-%m-%d').date()
+                except:
+                    pass  # Mantém None se der erro
+            
+            # Para definir o salário
+            salario = 0.0
+            try:
+                salario = float(dados.get('salario', 0.0))
+            except:
+                salario = 0.0
+            
+            # Para definir o número de departamento
+            num_depto = dados.get('numero_departamento')
+            numero_departamento = None
+            if num_depto and num_depto.strip():
+                try:
+                    numero_departamento = int(num_depto)
+                except:
+                    numero_departamento = None
+            
+            # Para definir o CPF do supervisor
+            cpf_supervisor = dados.get('cpf_supervisor')
+            if cpf_supervisor and cpf_supervisor.strip():
+                cpf_supervisor = cpf_supervisor.replace('.', '').replace('-', '')
+                if len(cpf_supervisor) != 11:
+                    cpf_supervisor = None
+            else:
+                cpf_supervisor = None
+            
+            # Para criar Funcionario
+            novo_funcionario = Funcionario(
+                _cpf=dados.get('cpf').replace('.', '').replace('-', ''),
+                _pnome=dados.get('pnome'),
+                _unome=dados.get('unome'),
+                _data_nasc=data_nasc,
+                _endereco=dados.get('endereco'),
+                _salario=salario,
+                _sexo=dados.get('sexo'),
+                _cpf_supervisor=cpf_supervisor,
+                _numero_departamento=numero_departamento
+            )
+            
+            # Para salvar no banco de dados
+            resultado = funcionario_dao.create(novo_funcionario)
+            
+            if resultado:
+                return redirect(url_for('index'))
+            else:
+                return "Erro ao criar funcionário", 500
+                
+        except Exception as e:
+            return f"Erro: {str(e)}", 500
+    # Se for GET, apenas mostra o formulário em branco
+    else:        
+        return render_template('create.html')
 
 ### Verifica se rota é GET ou POST para atualizar funcionário
 @app.route('/funcionario/edit/<string:pk>', methods=['GET', 'POST'])
