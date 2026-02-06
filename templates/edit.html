@@ -28,10 +28,6 @@
                 <label class="form-label">CPF</label>
                 <input id = "cpf-cor" type="text" class="form-control" title="CPF não pode ser alterado" value="{{ funcionario.cpf|format_cpf }}" readonly>
             </div>
-            <div class="col-md-6">
-                <label class="form-label">CPF do Supervisor</label>
-                <input type="text" class="form-control" value="{{ funcionario.cpf_supervisor }}" required>
-            </div>
             
             <div class="col-md-6">
                 <label class="form-label">Salário (R$)</label>
