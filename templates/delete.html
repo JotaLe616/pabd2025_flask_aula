@@ -2,97 +2,68 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Confirmar Exclusão</title>
+    <title>Excluir Funcionário</title>
     <!-- CSS separado -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='delete.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
 </head>
-<body>
-    <!-- Container principal -->
+<body id="body-index">
+    <header id = "cabecalho">
+        <h1>LOS FUNCIONÁRIOS</h1>
+    </header>
+    <header id ="fita"></header>
     <div class="container">
-        
-        <!-- Cartão com conteúdo -->
-        <div class="card">
+        <h1 id = "titulo-principal">Excluir Funcionário</h1>  
+
+        <form class="row g-3" method="POST" action="{{ url_for('delete', pk=funcionario.cpf) }}">
+            <div class="col-md-6">
+                <label class="form-label">Nome</label>
+                <input type="text" class="form-control" name="pnome" value="{{ funcionario.pnome }}" readonly>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Sobrenome</label>
+                <input type="text" class="form-control" name="unome" value="{{ funcionario.unome }}" readonly>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">CPF</label>
+                <input type="text" class="form-control" value="{{ funcionario.cpf|format_cpf }}" readonly>
+            </div>
             
-            <!-- CABEÇALHO -->
-            <header class="cabecalho">
-                <h1>⚠️ Confirmar Exclusão</h1>
-                <p class="subtitulo">Ação irreversível</p>
-            </header>
+            <div class="col-md-6">
+                <label class="form-label">Salário (R$)</label>
+                <input type="number" class="form-control" step="0.01" name="salario" value="{{ funcionario.salario }}" readonly>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Endereço</label>
+                <input type="text" class="form-control" name="endereco" value="{{ funcionario.endereco }}" readonly>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Sexo</label>
+                {% if funcionario.sexo == "F" %}
+                 <input name="sexo" class="form-control" value="Feminino" readonly>
+                {% else %}
+                 <input name="sexo" class="form-control" value="Masculino" readonly>
+                {% endif %}
+                </input>
+            </div>
             
-            <!-- CORPO DA PÁGINA -->
-            <main class="conteudo">
-                
-                <!-- Alerta de atenção -->
-                <div class="alerta alerta-aviso">
-                    <h2>Atenção!</h2>
-                    <p>Você está prestes a excluir um funcionário permanentemente.</p>
-                </div>
-
-                <!-- Informações do funcionário -->
-                <div class="informacoes">
-                    <h3>Funcionário a ser excluído</h3>
-                    
-                    <div class="dados-funcionario">
-                        <div class="dados-coluna">
-                            <p><strong>Nome:</strong> {{ funcionario.pnome }} {{ funcionario.unome }}</p>
-                            <p><strong>CPF:</strong> {{ funcionario.cpf|format_cpf }}</p>
-                        </div>
-                        
-                        <div class="dados-coluna">
-                            <p><strong>Nascimento:</strong>
-                                {% if funcionario.data_nasc %}
-                                    {% if funcionario.data_nasc is string %}
-                                        {{ datetime.strptime(funcionario.data_nasc, '%Y-%m-%d').strftime('%d/%m/%Y') }}
-                                    {% else %}
-                                        {{ funcionario.data_nasc.strftime('%d/%m/%Y') }}
-                                    {% endif %}
-                                {% else %}
-                                    Não informado
-                                {% endif %}
-                            </p>
-                            <p><strong>Salário:</strong> 
-                                {% if funcionario.salario %}
-                                    R$ {{ "%.2f"|format(funcionario.salario) }}
-                                {% else %}
-                                    Não informado
-                                {% endif %}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Alerta final -->
-                <div class="alerta alerta-perigo">
-                    <h2>⚠️ Esta ação não pode ser desfeita!</h2>
-                    <p>Todos os dados deste funcionário serão permanentemente removidos.</p>
-                </div>
-
-                <!-- Formulário de confirmação -->
-                <form method="POST" action="{{ url_for('delete', pk=funcionario.cpf) }}" class="formulario">
-
-                    <!-- Botões de ação -->
-                    <div class="botoes">
-                        <a href="{{ url_for('index') }}" class="botao botao-cancelar">
-                            ❌ Cancelar
-                        </a>
-                        
-                        <button type="submit" class="botao botao-excluir" id="confirmDelete">
-                            🗑️ Confirmar Exclusão
-                        </button>
-                    </div>
-                </form>
-            </main>
+            <div class="col-md-3">
+                <label class="form-label">Data de Nascimento</label>
+                {% if funcionario.data_nasc is string %}
+                    {% set data_nasc_value = funcionario.data_nasc[:10] %}
+                {% else %}
+                    {% set data_nasc_value = funcionario.data_nasc.strftime('%Y-%m-%d') %}
+                {% endif %}
+                <input type="date" class="form-control" name="data_nasc" 
+                       value="{{ data_nasc_value }}" readonly>
+            </div>
             
-            <!-- RODAPÉ -->
-            <footer class="rodape">
-                <p><strong>Observação:</strong> Use o botão "Voltar" do navegador para retornar.</p>
-            </footer>
-        </div>
-        
-        <!-- Mensagem de segurança -->
-        <div class="mensagem">
-            <p>🔒 Operação protegida.</p>
-        </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-danger">Excluir</button>
+                <a href="{{ url_for('index') }}" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
     </div>
 </body>
 </html>
